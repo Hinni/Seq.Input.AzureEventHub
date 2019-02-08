@@ -1,5 +1,4 @@
 ﻿using Microsoft.Azure.EventHubs;
-using Microsoft.Azure.EventHubs.Processor;
 using Seq.Apps;
 using System;
 using System.IO;
@@ -12,7 +11,7 @@ namespace Seq.Input.AzureEventHub
                   "https://github.com/serilog/serilog-formatting-compact/#format-details.")]
     public class AzureEventHubInput : SeqApp, IPublishJson, IDisposable
     {
-        private EventProcessorHost _eventProcessorHost;
+        private AzureEventHubListener azureEventHubListener;
 
         [SeqAppSetting(
             DisplayName = "Event Hubs connection string",
@@ -33,45 +32,28 @@ namespace Seq.Input.AzureEventHub
         public string ConsumerGroupName { get; set; } = PartitionReceiver.DefaultConsumerGroupName;
 
         [SeqAppSetting(
+            DisplayName = "Storage account connection string",
+            IsOptional = false,
+            HelpText = "")]
+        public string StorageConnectionString { get; set; }
+
+        [SeqAppSetting(
             DisplayName = "Storage account container name",
             IsOptional = false,
             HelpText = "")]
         public string StorageContainerName { get; set; }
 
-        [SeqAppSetting(
-            DisplayName = "Storage account name",
-            IsOptional = false,
-            HelpText = "")]
-        public string StorageAccountName { get; set; }
-
-        [SeqAppSetting(
-            DisplayName = "Storage account key",
-            IsOptional = false,
-            HelpText = "")]
-        public string StorageAccountKey { get; set; }
-
         public void Start(TextWriter inputWriter)
         {
-            string storageConnectionString = string.Format("DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}", StorageAccountName, StorageAccountKey);
-
-            Console.WriteLine("Registering EventProcessor...");
-
-            _eventProcessorHost = new EventProcessorHost(
-                EventHubName,
-                ConsumerGroupName,
-                EventHubConnectionString,
-                storageConnectionString,
-                StorageContainerName);
-
-            // Registers the Event Processor Host and starts receiving messages
-            var factory = new InputEventProcessorFactory<CompactFormatEventProcessor>(inputWriter);
-            _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory).Wait();
+            azureEventHubListener = new AzureEventHubListener(
+                inputWriter, Log,
+                EventHubConnectionString, EventHubName, ConsumerGroupName,
+                StorageConnectionString, StorageContainerName);
         }
 
         public void Stop()
         {
-            // Disposes of the Event Processor Host
-            _eventProcessorHost.UnregisterEventProcessorAsync().Wait();
+            azureEventHubListener.Stop();
         }
 
         public void Dispose()
