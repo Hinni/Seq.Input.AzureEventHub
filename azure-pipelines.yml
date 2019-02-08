@@ -73,10 +73,7 @@ steps:
     configuration: '$(buildConfiguration)'
     packagesToPack: '**/Seq.Input.AzureEventHub.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)\packages'
-    versioningScheme: byPrereleaseNumber
-    majorVersion: '$(Major)'
-    minorVersion: '$(Minor)'
-    patchVersion: '$(Patch)' 
+    arguments: '--version-suffix "pre-$(Date:yyyyMMdd)$(Rev:-rrr)"'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish prerelease NuGet to Pipeline Artifact'
@@ -94,10 +91,6 @@ steps:
     configuration: '$(buildConfiguration)'
     packagesToPack: '**/Seq.Input.AzureEventHub.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)\packages'
-    versioningScheme: off
-    majorVersion: '$(Major)'
-    minorVersion: '$(Minor)'
-    patchVersion: '$(Patch)' 
 
 - task: NuGetCommand@2
   displayName: 'Push NuGet as official release from master'
@@ -108,7 +101,3 @@ steps:
     packagesToPush: '$(Build.ArtifactStagingDirectory)\packages\*.nupkg'
     nuGetFeedType: external
     publishFeedCredentials: '$(nuget.credentials)'
-    versioningScheme: off
-    majorVersion: '$(Major)'
-    minorVersion: '$(Minor)'
-    patchVersion: '$(Patch)' 
