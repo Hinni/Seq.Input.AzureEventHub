@@ -57,7 +57,7 @@ steps:
     command: publish
     configuration: '$(buildConfiguration)'
     projects: '**/Seq.Input.AzureEventHub.csproj'
-    arguments: '--output .\obj\publish --self-contained --version-suffix pre-$(Build.BuildNumber)'
+    arguments: '--output .\obj\publish --self-contained'
     publishWebProjects: false
     zipAfterPublish: false
     modifyOutputPath: false
@@ -70,6 +70,7 @@ steps:
     configuration: '$(buildConfiguration)'
     packagesToPack: '**/Seq.Input.AzureEventHub.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)\packages'
+    buildProperties: 'VersionSuffix=pre-$(Build.BuildNumber)'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish prerelease NuGet to Pipeline Artifact'
