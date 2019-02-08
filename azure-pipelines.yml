@@ -59,8 +59,11 @@ steps:
   inputs:
     command: publish
     configuration: '$(buildConfiguration)'
-    packagesToPack: '**/Seq.Input.AzureEventHub.csproj'
+    projects: '**/Seq.Input.AzureEventHub.csproj'
     arguments: '--output .\obj\publish --self-contained'
+    publishWebProjects: false
+    zipAfterPublish: false
+    modifyOutputPath: false
 
 - task: DotNetCoreCLI@2
   displayName: 'Pack prerelease NuGet from branch'
