@@ -30,9 +30,6 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  Major: '1'
-  Minor: '0'
-  Patch: '0'
 
 steps:
 - task: DotNetCoreInstaller@0
@@ -60,7 +57,7 @@ steps:
     command: publish
     configuration: '$(buildConfiguration)'
     projects: '**/Seq.Input.AzureEventHub.csproj'
-    arguments: '--output .\obj\publish --self-contained'
+    arguments: '--output .\obj\publish --self-contained --version-suffix pre-$(Build.BuildNumber)'
     publishWebProjects: false
     zipAfterPublish: false
     modifyOutputPath: false
@@ -73,7 +70,6 @@ steps:
     configuration: '$(buildConfiguration)'
     packagesToPack: '**/Seq.Input.AzureEventHub.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)\packages'
-    arguments: '--version-suffix "pre-$(Date:yyyyMMdd)$(Rev:-rrr)"'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish prerelease NuGet to Pipeline Artifact'
