@@ -10,7 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Input.AzureEventHub", "src\Seq.Input.AzureEventHub\Seq.Input.AzureEventHub.csproj", "{D84C061E-1014-44E3-A1BA-21048F292709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seq.Input.AzureEventHub", "src\Seq.Input.AzureEventHub\Seq.Input.AzureEventHub.csproj", "{D84C061E-1014-44E3-A1BA-21048F292709}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5C9AEE60-0494-4CDD-8F47-874A69813F2D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{64F3E611-7453-4EE2-93B1-1AC31F3C9958}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D84C061E-1014-44E3-A1BA-21048F292709} = {64F3E611-7453-4EE2-93B1-1AC31F3C9958}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D5EAC1B8-EB0E-431A-9969-61E92F246869}
