@@ -6,7 +6,7 @@ namespace Seq.Input.AzureEventHub
 {
     public class AzureEventHubListener
     {
-        private EventProcessorHost _eventProcessorHost;
+        private readonly EventProcessorHost _eventProcessorHost;
 
         public AzureEventHubListener(TextWriter inputWriter, ILogger logger, bool verboseEnabled,
             string eventHubConnectionString, string eventHubName, string consumerGroupName,
@@ -19,14 +19,14 @@ namespace Seq.Input.AzureEventHub
                 storageConnectionString,
                 storageContainerName);
 
-            // Registers the Event Processor Host and starts receiving messages
-            var factory = new InputEventProcessorFactory<CompactFormatEventProcessor>(inputWriter, logger, verboseEnabled);
-            _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory).Wait();
+            // Registers ClefEventProcessor in running EventProcessorHost instance
+            var factory = new InputEventProcessorFactory<ClefEventProcessor>(inputWriter, logger, verboseEnabled);
+            _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory);
         }
 
         public void Stop()
         {
-            // Disposes of the Event Processor Host
+            // Unregister all registered EventProcessors
             _eventProcessorHost.UnregisterEventProcessorAsync().Wait();
         }
     }

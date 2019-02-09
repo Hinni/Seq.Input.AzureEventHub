@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Seq.Input.AzureEventHub
 {
-    public class CompactFormatEventProcessor : IEventProcessor
+    public class ClefEventProcessor : IEventProcessor
     {
         private readonly TextWriter _inputWriter;
         private readonly ILogger _logger;
         private readonly bool _verboseEnabled;
 
-        public CompactFormatEventProcessor(TextWriter inputWriter, ILogger logger, bool verboseEnabled)
+        public ClefEventProcessor(TextWriter inputWriter, ILogger logger, bool verboseEnabled)
         {
             _inputWriter = inputWriter;
             _logger = logger;
@@ -26,7 +26,7 @@ namespace Seq.Input.AzureEventHub
         {
             if (_verboseEnabled)
             {
-                _logger.Verbose("{EventProcessor} shutting down. Partition {PartitionId}, Reason: {Reason}.", nameof(CompactFormatEventProcessor), context.PartitionId, reason);
+                _logger.Verbose("{EventProcessor} shutting down. Partition {PartitionId}, Reason: {Reason}.", nameof(ClefEventProcessor), context.PartitionId, reason);
             }
 
             return Task.CompletedTask;
@@ -36,7 +36,7 @@ namespace Seq.Input.AzureEventHub
         {
             if (_verboseEnabled)
             {
-                _logger.Verbose("{EventProcessor} initialized. Partition: {PartitionId}", nameof(CompactFormatEventProcessor), context.PartitionId);
+                _logger.Verbose("{EventProcessor} initialized. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
             }
 
             return Task.CompletedTask;
@@ -44,7 +44,7 @@ namespace Seq.Input.AzureEventHub
 
         public Task ProcessErrorAsync(PartitionContext context, Exception error)
         {
-            _logger.Error(error, "{EventProcessor} detected an error. Partition: {PartitionId}", nameof(CompactFormatEventProcessor), context.PartitionId);
+            _logger.Error(error, "{EventProcessor} detected an error. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
 
             return Task.CompletedTask;
         }
@@ -58,7 +58,7 @@ namespace Seq.Input.AzureEventHub
 
                 if (_verboseEnabled)
                 {
-                    _logger.Verbose("{EventProcessor} received message. Partition: {PartitionId}", nameof(CompactFormatEventProcessor), context.PartitionId);
+                    _logger.Verbose("{EventProcessor} received message. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
                 }
             }
 
