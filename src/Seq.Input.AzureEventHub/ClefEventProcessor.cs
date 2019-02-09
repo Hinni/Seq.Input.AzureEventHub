@@ -53,12 +53,19 @@ namespace Seq.Input.AzureEventHub
         {
             foreach (var eventData in messages)
             {
-                var data = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
-                _inputWriter.WriteLine(data);
-
-                if (_verboseEnabled)
+                try
                 {
-                    _logger.Verbose("{EventProcessor} received message. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
+                    var data = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
+                    _inputWriter.WriteLine(data);
+
+                    if (_verboseEnabled)
+                    {
+                        _logger.Verbose("{EventProcessor} received message. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "{EventProcessor} detected an error. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
                 }
             }
 
