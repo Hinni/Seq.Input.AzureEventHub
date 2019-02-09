@@ -30,13 +30,13 @@ namespace Seq.Input.AzureEventHub.TestConsole
 
             // Send data
             var eventHubClient = EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
-            eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes("{\"@t\":\"2016-06-07T03:44:57.8532799Z\",\"@mt\":\"Hello, {User}\",\"User\":\"nblumhardt\"}")));
+            eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes("{\"@t\":\"2019-02-09T03:44:58.8532799Z\",\"@mt\":\"Hello, {User}\",\"User\":\"nblumhardt\"}")));
             eventHubClient.Close();
 
             Console.WriteLine("Read this data");
 
             // Setup listener
-            var listener = new AzureEventHubListener(Console.Out, log,
+            var listener = new AzureEventHubListener(Console.Out, log, true,
                 eventHubConnectionString,
                 eventHubName,
                 appSettings.ConsumerGroupName,

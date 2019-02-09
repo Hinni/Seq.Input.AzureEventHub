@@ -48,10 +48,17 @@ namespace Seq.Input.AzureEventHub
             HelpText = "Azure Storage container name for use by built-in lease and checkpoint manager.")]
         public string StorageContainerName { get; set; }
 
+        [SeqAppSetting(
+            DisplayName = "Verbose logging enabled",
+            IsOptional = false,
+            InputType = SettingInputType.Checkbox,
+            HelpText = "Enable verbose logging for debugging purpose.")]
+        public bool VerboseEnabled { get; set; } = false;
+
         public void Start(TextWriter inputWriter)
         {
             azureEventHubListener = new AzureEventHubListener(
-                inputWriter, Log,
+                inputWriter, Log, VerboseEnabled,
                 EventHubConnectionString, EventHubName, ConsumerGroupName,
                 StorageConnectionString, StorageContainerName);
         }

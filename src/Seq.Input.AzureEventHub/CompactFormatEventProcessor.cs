@@ -13,28 +13,39 @@ namespace Seq.Input.AzureEventHub
     {
         private readonly TextWriter _inputWriter;
         private readonly ILogger _logger;
+        private readonly bool _verboseEnabled;
 
-        public CompactFormatEventProcessor(TextWriter inputWriter, ILogger logger)
+        public CompactFormatEventProcessor(TextWriter inputWriter, ILogger logger, bool verboseEnabled)
         {
             _inputWriter = inputWriter;
             _logger = logger;
+            _verboseEnabled = verboseEnabled;
         }
 
         public Task CloseAsync(PartitionContext context, CloseReason reason)
         {
-            _logger.Verbose("Processor Shutting Down. Partition {PartitionId}, Reason: {Reason}.", context.PartitionId, reason);
+            if (_verboseEnabled)
+            {
+                _logger.Verbose("{EventProcessor} shutting down. Partition {PartitionId}, Reason: {Reason}.", nameof(CompactFormatEventProcessor), context.PartitionId, reason);
+            }
+
             return Task.CompletedTask;
         }
 
         public Task OpenAsync(PartitionContext context)
         {
-            _logger.Verbose("{EventProcessor} initialized. Partition: {PartitionId}", nameof(CompactFormatEventProcessor), context.PartitionId);
+            if (_verboseEnabled)
+            {
+                _logger.Verbose("{EventProcessor} initialized. Partition: {PartitionId}", nameof(CompactFormatEventProcessor), context.PartitionId);
+            }
+
             return Task.CompletedTask;
         }
 
         public Task ProcessErrorAsync(PartitionContext context, Exception error)
         {
-            _logger.Error(error, "Error on Partition: {PartitionId}", context.PartitionId);
+            _logger.Error(error, "{EventProcessor} detected an error. Partition: {PartitionId}", nameof(CompactFormatEventProcessor), context.PartitionId);
+
             return Task.CompletedTask;
         }
 
@@ -44,7 +55,11 @@ namespace Seq.Input.AzureEventHub
             {
                 var data = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
                 _inputWriter.WriteLine(data);
-                _logger.Verbose("Message received. Partition: {PartitionId}", context.PartitionId);
+
+                if (_verboseEnabled)
+                {
+                    _logger.Verbose("{EventProcessor} received message. Partition: {PartitionId}", nameof(CompactFormatEventProcessor), context.PartitionId);
+                }
             }
 
             return context.CheckpointAsync();

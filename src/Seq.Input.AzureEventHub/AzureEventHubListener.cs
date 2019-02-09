@@ -8,7 +8,7 @@ namespace Seq.Input.AzureEventHub
     {
         private EventProcessorHost _eventProcessorHost;
 
-        public AzureEventHubListener(TextWriter inputWriter, ILogger logger,
+        public AzureEventHubListener(TextWriter inputWriter, ILogger logger, bool verboseEnabled,
             string eventHubConnectionString, string eventHubName, string consumerGroupName,
             string storageConnectionString, string storageContainerName)
         {
@@ -20,7 +20,7 @@ namespace Seq.Input.AzureEventHub
                 storageContainerName);
 
             // Registers the Event Processor Host and starts receiving messages
-            var factory = new InputEventProcessorFactory<CompactFormatEventProcessor>(inputWriter, logger);
+            var factory = new InputEventProcessorFactory<CompactFormatEventProcessor>(inputWriter, logger, verboseEnabled);
             _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory).Wait();
         }
 
