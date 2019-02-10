@@ -11,6 +11,7 @@ namespace Seq.Input.AzureEventHub
 {
     public class ClefEventProcessor : IEventProcessor
     {
+        private readonly object processLock = new object();
         private readonly TextWriter _inputWriter;
         private readonly ILogger _logger;
         private readonly bool _verboseEnabled;
@@ -56,7 +57,10 @@ namespace Seq.Input.AzureEventHub
                 try
                 {
                     var data = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
-                    _inputWriter.WriteLine(data);
+                    lock (processLock)
+                    {
+                        _inputWriter.WriteLine(data);
+                    }
 
                     if (_verboseEnabled)
                     {
