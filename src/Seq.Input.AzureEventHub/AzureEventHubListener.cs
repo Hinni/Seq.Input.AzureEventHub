@@ -6,7 +6,7 @@ namespace Seq.Input.AzureEventHub
 {
     public class AzureEventHubListener
     {
-        private readonly EventProcessorHost _eventProcessorHost;
+        private static EventProcessorHost _eventProcessorHost;
 
         public AzureEventHubListener(SynchronizedInputWriter synchronizedInputWriter, ILogger logger,
             string eventHubConnectionString, string eventHubName, string consumerGroupName,
@@ -26,9 +26,17 @@ namespace Seq.Input.AzureEventHub
                 }
             };
 
+            var eventProcessorOptions = new EventProcessorOptions()
+            {
+                InvokeProcessorAfterReceiveTimeout = false,
+                EnableReceiverRuntimeMetric = false,
+                MaxBatchSize = 100,
+                ReceiveTimeout = TimeSpan.FromSeconds(25),
+            };
+
             // Registers ClefEventProcessor in running EventProcessorHost instance
             var factory = new InputEventProcessorFactory<ClefEventProcessor>(synchronizedInputWriter, logger);
-            _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory, new EventProcessorOptions() { ReceiveTimeout = TimeSpan.FromSeconds(25) });
+            _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory, eventProcessorOptions);
         }
 
         public void Stop()

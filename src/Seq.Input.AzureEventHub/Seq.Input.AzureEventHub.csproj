@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Seq.Apps" Version="5.1.0-*" />
     <PackageReference Include="Microsoft.Azure.EventHubs.Processor" Version="3.0.0" />
   </ItemGroup>
