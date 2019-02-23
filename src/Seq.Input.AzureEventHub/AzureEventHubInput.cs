@@ -5,10 +5,10 @@ using System.IO;
 
 namespace Seq.Input.AzureEventHub
 {
-    [SeqApp("Azure Event Hub Input",
-    Description = "Pulls JSON-formatted events from an Azure Event Hub. For details of the " +
-                  "supported JSON schema, see " +
-                  "https://github.com/serilog/serilog-formatting-compact/#format-details.")]
+    [SeqApp("Azure Event Hub Input", AllowReprocessing = false,
+    Description = "Pulls JSON-formatted events from an Azure Event Hub. " +
+        "For details of the supported JSON schema, see " +
+        "https://github.com/serilog/serilog-formatting-compact/#format-details.")]
     public class AzureEventHubInput : SeqApp, IPublishJson, IDisposable
     {
         private AzureEventHubListener azureEventHubListener;
