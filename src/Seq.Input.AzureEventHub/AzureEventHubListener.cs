@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.EventHubs.Processor;
 using Serilog;
-using System.IO;
+using System;
 
 namespace Seq.Input.AzureEventHub
 {
@@ -17,11 +17,18 @@ namespace Seq.Input.AzureEventHub
                 consumerGroupName,
                 eventHubConnectionString,
                 storageConnectionString,
-                storageContainerName);
+                storageContainerName)
+            {
+                PartitionManagerOptions = new PartitionManagerOptions()
+                {
+                    RenewInterval = TimeSpan.FromSeconds(10),
+                    LeaseDuration = TimeSpan.FromSeconds(20),
+                }
+            };
 
             // Registers ClefEventProcessor in running EventProcessorHost instance
             var factory = new InputEventProcessorFactory<ClefEventProcessor>(synchronizedInputWriter, logger, verboseEnabled);
-            _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory);
+            _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory, new EventProcessorOptions() { ReceiveTimeout = TimeSpan.FromSeconds(25) });
         }
 
         public void Stop()
