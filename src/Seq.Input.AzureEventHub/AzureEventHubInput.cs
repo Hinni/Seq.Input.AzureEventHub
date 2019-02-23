@@ -58,7 +58,7 @@ namespace Seq.Input.AzureEventHub
         public void Start(TextWriter inputWriter)
         {
             azureEventHubListener = new AzureEventHubListener(
-                inputWriter, Log, VerboseEnabled,
+                new SynchronizedInputWriter(inputWriter), Log, VerboseEnabled,
                 EventHubConnectionString, EventHubName, ConsumerGroupName,
                 StorageConnectionString, StorageContainerName);
         }

@@ -42,7 +42,7 @@ namespace Seq.Input.AzureEventHub.TestConsole
             Log.Logger.Information("Read this data");
 
             // Setup listener (only if not running on Seq already)
-            var listener = new AzureEventHubListener(Console.Out, Log.Logger, false,
+            var listener = new AzureEventHubListener(new SynchronizedInputWriter(Console.Out), Log.Logger, false,
                 appSettings.EventHubConnectionString,
                 appSettings.EventHubName,
                 appSettings.ConsumerGroupName,

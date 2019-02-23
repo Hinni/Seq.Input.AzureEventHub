@@ -3,7 +3,6 @@ using Microsoft.Azure.EventHubs.Processor;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,14 +10,13 @@ namespace Seq.Input.AzureEventHub
 {
     public class ClefEventProcessor : IEventProcessor
     {
-        private readonly object processLock = new object();
-        private readonly TextWriter _inputWriter;
+        private readonly SynchronizedInputWriter _synchronizedInputWriter;
         private readonly ILogger _logger;
         private readonly bool _verboseEnabled;
 
-        public ClefEventProcessor(TextWriter inputWriter, ILogger logger, bool verboseEnabled)
+        public ClefEventProcessor(SynchronizedInputWriter synchronizedInputWriter, ILogger logger, bool verboseEnabled)
         {
-            _inputWriter = inputWriter;
+            _synchronizedInputWriter = synchronizedInputWriter;
             _logger = logger;
             _verboseEnabled = verboseEnabled;
         }
@@ -57,10 +55,7 @@ namespace Seq.Input.AzureEventHub
                 try
                 {
                     var data = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
-                    lock (processLock)
-                    {
-                        _inputWriter.WriteLine(data);
-                    }
+                    _synchronizedInputWriter.WriteLine(data);
 
                     if (_verboseEnabled)
                     {
