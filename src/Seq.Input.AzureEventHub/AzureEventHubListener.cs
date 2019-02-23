@@ -8,7 +8,7 @@ namespace Seq.Input.AzureEventHub
     {
         private readonly EventProcessorHost _eventProcessorHost;
 
-        public AzureEventHubListener(SynchronizedInputWriter synchronizedInputWriter, ILogger logger, bool verboseEnabled,
+        public AzureEventHubListener(SynchronizedInputWriter synchronizedInputWriter, ILogger logger,
             string eventHubConnectionString, string eventHubName, string consumerGroupName,
             string storageConnectionString, string storageContainerName)
         {
@@ -27,7 +27,7 @@ namespace Seq.Input.AzureEventHub
             };
 
             // Registers ClefEventProcessor in running EventProcessorHost instance
-            var factory = new InputEventProcessorFactory<ClefEventProcessor>(synchronizedInputWriter, logger, verboseEnabled);
+            var factory = new InputEventProcessorFactory<ClefEventProcessor>(synchronizedInputWriter, logger);
             _eventProcessorHost.RegisterEventProcessorFactoryAsync(factory, new EventProcessorOptions() { ReceiveTimeout = TimeSpan.FromSeconds(25) });
         }
 

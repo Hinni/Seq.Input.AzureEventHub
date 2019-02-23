@@ -4,7 +4,8 @@
 [![GitHub release](https://img.shields.io/github/release/Hinni/Seq.Input.AzureEventHub.svg)](https://github.com/Hinni/Seq.Input.AzureEventHub/releases)
 [![NuGet](https://img.shields.io/nuget/v/Seq.Input.AzureEventHub.svg)](https://www.nuget.org/packages/Seq.Input.AzureEventHub/)
 
-A Seq custom input that pulls messages from Azure EventHub. **Requires Seq 5.1+.**
+A Seq custom input that pulls messages from Azure EventHub. **Requires Seq 5.1+**
+**currently works only on docker and not on Windows**
 
 ## Getting started
 

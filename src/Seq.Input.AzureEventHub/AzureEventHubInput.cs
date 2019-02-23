@@ -6,9 +6,9 @@ using System.IO;
 namespace Seq.Input.AzureEventHub
 {
     [SeqApp("Azure Event Hub Input", AllowReprocessing = false,
-    Description = "Pulls JSON-formatted events from an Azure Event Hub. " +
-        "For details of the supported JSON schema, see " +
-        "https://github.com/serilog/serilog-formatting-compact/#format-details.")]
+        Description = "Pulls JSON-formatted events from an Azure Event Hub. " +
+                      "For details of the supported JSON schema, see " +
+                      "https://github.com/serilog/serilog-formatting-compact/#format-details.")]
     public class AzureEventHubInput : SeqApp, IPublishJson, IDisposable
     {
         private AzureEventHubListener azureEventHubListener;
@@ -48,17 +48,10 @@ namespace Seq.Input.AzureEventHub
             HelpText = "Azure Storage container name for use by built-in lease and checkpoint manager.")]
         public string StorageContainerName { get; set; }
 
-        [SeqAppSetting(
-            DisplayName = "Verbose logging enabled",
-            IsOptional = false,
-            InputType = SettingInputType.Checkbox,
-            HelpText = "Enable verbose logging for debugging purpose.")]
-        public bool VerboseEnabled { get; set; } = false;
-
         public void Start(TextWriter inputWriter)
         {
             azureEventHubListener = new AzureEventHubListener(
-                new SynchronizedInputWriter(inputWriter), Log, VerboseEnabled,
+                new SynchronizedInputWriter(inputWriter), Log,
                 EventHubConnectionString, EventHubName, ConsumerGroupName,
                 StorageConnectionString, StorageContainerName);
         }

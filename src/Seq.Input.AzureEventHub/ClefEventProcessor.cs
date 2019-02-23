@@ -12,38 +12,30 @@ namespace Seq.Input.AzureEventHub
     {
         private readonly SynchronizedInputWriter _synchronizedInputWriter;
         private readonly ILogger _logger;
-        private readonly bool _verboseEnabled;
 
-        public ClefEventProcessor(SynchronizedInputWriter synchronizedInputWriter, ILogger logger, bool verboseEnabled)
+        public ClefEventProcessor(SynchronizedInputWriter synchronizedInputWriter, ILogger logger)
         {
             _synchronizedInputWriter = synchronizedInputWriter;
             _logger = logger;
-            _verboseEnabled = verboseEnabled;
         }
 
         public Task CloseAsync(PartitionContext context, CloseReason reason)
         {
-            if (_verboseEnabled)
-            {
-                _logger.Verbose("{EventProcessor} shutting down. Partition {PartitionId}, Reason: {Reason}.", nameof(ClefEventProcessor), context.PartitionId, reason);
-            }
+            _logger.Information("{EventProcessor} connection closed to partition {PartitionId} reason: {Reason}.", nameof(ClefEventProcessor), context.PartitionId, reason);
 
             return Task.CompletedTask;
         }
 
         public Task OpenAsync(PartitionContext context)
         {
-            if (_verboseEnabled)
-            {
-                _logger.Verbose("{EventProcessor} initialized. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
-            }
+            _logger.Information("{EventProcessor} connection initialized to partition {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
 
             return Task.CompletedTask;
         }
 
-        public Task ProcessErrorAsync(PartitionContext context, Exception error)
+        public Task ProcessErrorAsync(PartitionContext context, Exception ex)
         {
-            _logger.Error(error, "{EventProcessor} detected an error. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
+            _logger.Error(ex, "{EventProcessor} detected an error on partition {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
 
             return Task.CompletedTask;
         }
@@ -56,15 +48,10 @@ namespace Seq.Input.AzureEventHub
                 {
                     var data = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
                     _synchronizedInputWriter.WriteLine(data);
-
-                    if (_verboseEnabled)
-                    {
-                        _logger.Verbose("{EventProcessor} received message. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
-                    }
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex, "{EventProcessor} detected an error. Partition: {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
+                    _logger.Error(ex, "{EventProcessor} detected an error on partition {PartitionId}", nameof(ClefEventProcessor), context.PartitionId);
                 }
             }
 
