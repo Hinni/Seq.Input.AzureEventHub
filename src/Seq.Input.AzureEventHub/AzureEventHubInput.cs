@@ -29,7 +29,7 @@ namespace Seq.Input.AzureEventHub
 
         [SeqAppSetting(
             DisplayName = "Consumer group name",
-            IsOptional = false,
+            IsOptional = true,
             InputType = SettingInputType.Text,
             HelpText = "The name of the consumer group within the Event Hub. The default is `$Default`.")]
         public string ConsumerGroupName { get; set; } = PartitionReceiver.DefaultConsumerGroupName;
