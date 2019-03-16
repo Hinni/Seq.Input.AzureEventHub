@@ -30,9 +30,6 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  Major: '1'
-  Minor: '0'
-  Patch: '0'
 
 steps:
 - task: DotNetCoreInstaller@0
@@ -59,8 +56,11 @@ steps:
   inputs:
     command: publish
     configuration: '$(buildConfiguration)'
-    packagesToPack: '**/Seq.Input.AzureEventHub.csproj'
+    projects: '**/Seq.Input.AzureEventHub.csproj'
     arguments: '--output .\obj\publish --self-contained'
+    publishWebProjects: false
+    zipAfterPublish: false
+    modifyOutputPath: false
 
 - task: DotNetCoreCLI@2
   displayName: 'Pack prerelease NuGet from branch'
@@ -70,10 +70,7 @@ steps:
     configuration: '$(buildConfiguration)'
     packagesToPack: '**/Seq.Input.AzureEventHub.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)\packages'
-    versioningScheme: byPrereleaseNumber
-    majorVersion: '$(Major)'
-    minorVersion: '$(Minor)'
-    patchVersion: '$(Patch)' 
+    buildProperties: 'VersionSuffix=pre-$(Build.BuildNumber)'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish prerelease NuGet to Pipeline Artifact'
@@ -91,10 +88,6 @@ steps:
     configuration: '$(buildConfiguration)'
     packagesToPack: '**/Seq.Input.AzureEventHub.csproj'
     packDirectory: '$(Build.ArtifactStagingDirectory)\packages'
-    versioningScheme: off
-    majorVersion: '$(Major)'
-    minorVersion: '$(Minor)'
-    patchVersion: '$(Patch)' 
 
 - task: NuGetCommand@2
   displayName: 'Push NuGet as official release from master'
@@ -105,7 +98,3 @@ steps:
     packagesToPush: '$(Build.ArtifactStagingDirectory)\packages\*.nupkg'
     nuGetFeedType: external
     publishFeedCredentials: '$(nuget.credentials)'
-    versioningScheme: off
-    majorVersion: '$(Major)'
-    minorVersion: '$(Minor)'
-    patchVersion: '$(Patch)' 
