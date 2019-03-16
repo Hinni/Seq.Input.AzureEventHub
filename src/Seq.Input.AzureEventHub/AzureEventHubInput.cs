@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.EventHubs;
 using Seq.Apps;
-using System;
 using System.IO;
 
 namespace Seq.Input.AzureEventHub
@@ -9,7 +8,7 @@ namespace Seq.Input.AzureEventHub
         Description = "Pulls JSON-formatted events from an Azure Event Hub. " +
                       "For details of the supported JSON schema, see " +
                       "https://github.com/serilog/serilog-formatting-compact/#format-details.")]
-    public class AzureEventHubInput : SeqApp, IPublishJson, IDisposable
+    public class AzureEventHubInput : SeqApp, IPublishJson
     {
         private AzureEventHubListener azureEventHubListener;
 
@@ -59,11 +58,6 @@ namespace Seq.Input.AzureEventHub
         public void Stop()
         {
             azureEventHubListener.Stop();
-        }
-
-        public void Dispose()
-        {
-            // NOOP
         }
     }
 }
