@@ -81,7 +81,6 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Pack official NuGet from master'
-  enabled: false
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   inputs:
     command: pack
@@ -91,7 +90,6 @@ steps:
 
 - task: NuGetCommand@2
   displayName: 'Push NuGet as official release from master'
-  enabled: false
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   inputs:
     command: push
