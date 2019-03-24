@@ -42,19 +42,19 @@ namespace Seq.Input.AzureEventHub.TestConsole
             Log.Logger.Information("Read this data");
 
             // Setup listener (only if not running on Seq already)
-            var listener = new AzureEventHubListener(new SynchronizedInputWriter(Console.Out), Log.Logger,
-                appSettings.EventHubConnectionString,
-                appSettings.EventHubName,
-                appSettings.ConsumerGroupName,
-                appSettings.StorageConnectionString,
-                appSettings.StorageContainerName);
+            //var listener = new AzureEventHubListener(new SynchronizedInputWriter(Console.Out), Log.Logger,
+            //    appSettings.EventHubConnectionString,
+            //    appSettings.EventHubName,
+            //    appSettings.ConsumerGroupName,
+            //    appSettings.StorageConnectionString,
+            //    appSettings.StorageContainerName);
 
             Log.Logger.Information("Press any key to shutting down");
             Console.ReadLine();
             Log.Logger.Warning("Please wait - shutting down...");
 
             // Clean up
-            listener.Stop(); // This requires 60 seconds!
+            //listener.Stop(); // This requires 60 seconds!
             Log.CloseAndFlush();
             eventHubClient.Close();
         }
