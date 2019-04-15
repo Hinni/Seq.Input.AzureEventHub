@@ -14,11 +14,11 @@ The app is published to NuGet as [_Seq.Input.AzureEventHub_](https://nuget.org/p
 
 The input accepts events in [compact JSON format](https://github.com/serilog/serilog-formatting-compact#format-details), encoded as UTF-8 text.
 
-The [_Serilog.Sinks.AzureEventHub_ sink](https://github.com/serilog/serilog-sinks-azureeventhub), along with the [_Serilog.Formatting.Compact_ formatter](https://github.com/serilog/serilog-formatting-compact), can be used for this.
+The [_Serilog.Sinks.AzureEventHub_](https://github.com/serilog/serilog-sinks-azureeventhub) sink, along with the [_Serilog.Formatting.Compact_](https://github.com/serilog/serilog-formatting-compact) formatter, can be used for this.
 
 See the _TestConsole_ project included in the repository for an example of client configuration that works with the default input configuration.
 
-In this cloud scenario, the EventHub can be used as a forwarder, which was previously done on a VM with locally installed [Seq forwarder](https://github.com/datalust/seq-forwarder).
+In this cloud scenario, the EventHub can be used as a forwarder, which was previously done on a VM with locally installed [_Seq-Forwarder_](https://github.com/datalust/seq-forwarder).
 
 ![How to use](/img/HowToUse.png)
 
