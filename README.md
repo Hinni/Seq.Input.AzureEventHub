@@ -18,6 +18,10 @@ The [_Serilog.Sinks.AzureEventHub_ sink](https://github.com/serilog/serilog-sink
 
 See the _TestConsole_ project included in the repository for an example of client configuration that works with the default input configuration.
 
+In this cloud scenario, the EventHub can be used as a forwarder, which was previously done on a VM with locally installed [Seq forwarder](https://github.com/datalust/seq-forwarder).
+
+![How to use](/img/HowToUse.png)
+
 ## Documentation
 
 https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-dotnet-standard-getstarted-receive-eph
