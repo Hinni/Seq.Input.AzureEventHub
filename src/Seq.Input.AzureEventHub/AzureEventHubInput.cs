@@ -5,7 +5,7 @@ using System.IO;
 namespace Seq.Input.AzureEventHub
 {
     [SeqApp("Azure Event Hub Input", AllowReprocessing = false,
-        Description = "Pulls JSON-formatted events from an Azure Event Hub. " +
+        Description = "Pulls JSON-formatted events from an Azure EventHub. " +
                       "For details of the supported JSON schema, see " +
                       "https://github.com/serilog/serilog-formatting-compact/#format-details.")]
     public class AzureEventHubInput : SeqApp, IPublishJson
@@ -13,14 +13,14 @@ namespace Seq.Input.AzureEventHub
         private AzureEventHubListener azureEventHubListener;
 
         [SeqAppSetting(
-            DisplayName = "Event Hubs connection string",
+            DisplayName = "EventHub connection string",
             IsOptional = false,
             InputType = SettingInputType.Password,
             HelpText = "Connection string for the Event Hub to receive from.")]
         public string EventHubConnectionString { get; set; }
 
         [SeqAppSetting(
-            DisplayName = "Event Hub path/name",
+            DisplayName = "EventHub path/name",
             IsOptional = false,
             InputType = SettingInputType.Text,
             HelpText = "The name of the EventHub.")]

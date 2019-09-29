@@ -5,7 +5,7 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <Authors>Hinni Solutions and Contributors</Authors>
-    <Summary>Ingest events into Seq directly from Azure Event Hub</Summary>
+    <Summary>Ingest events into Seq directly from Azure EventHub</Summary>
     <Description>$(Summary)</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>Copyright © 2019 Hinni Solutions and Contributors</Copyright>
