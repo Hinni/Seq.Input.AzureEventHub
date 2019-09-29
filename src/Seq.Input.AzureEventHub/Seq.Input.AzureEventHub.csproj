@@ -1,11 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <Authors>Hinni Solutions and Contributors</Authors>
-    <Description>Ingest events into Seq directly from Azure Event Hub</Description>
+    <Summary>Ingest events into Seq directly from Azure Event Hub</Summary>
+    <Description>$(Summary)</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>Copyright © 2019 Hinni Solutions and Contributors</Copyright>
     <RepositoryUrl>https://github.com/Hinni/Seq.Input.AzureEventHub</RepositoryUrl>
@@ -14,7 +15,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIconUrl>https://raw.githubusercontent.com/datalust/sqelf/master/asset/seq-input-gelf.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/Hinni/Seq.Input.AzureEventHub</PackageProjectUrl>
-    <VersionPrefix>1.0.2</VersionPrefix>
+    <VersionPrefix>1.1.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
