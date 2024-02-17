@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <Authors>Hinni Solutions and Contributors</Authors>
@@ -9,13 +9,13 @@
     <Description>Ingest events into Seq directly from Azure Event Hub</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>Copyright © 2019 Hinni Solutions and Contributors</Copyright>
-    <RepositoryUrl>https://github.com/Hinni/Seq.Input.AzureEventHub</RepositoryUrl>
+    <RepositoryUrl>https://github.com/nblumhardt/seq-input-azure-eventhub</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>seq-app Seq Input Azure Event Hub</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIconUrl>https://raw.githubusercontent.com/datalust/sqelf/master/asset/seq-input-gelf.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/Hinni/Seq.Input.AzureEventHub</PackageProjectUrl>
-    <Version>1.0.1</Version>
+    <PackageProjectUrl>https://github.com/nblumhardt/seq-input-azure-eventhub</PackageProjectUrl>
+    <RootNamespace>Seq.Input.AzureEventHub</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Seq.Apps" Version="5.1.0-*" />
-    <PackageReference Include="Microsoft.Azure.EventHubs.Processor" Version="3.0.0" />
+    <PackageReference Include="Seq.Apps" Version="2023.4.0" />
+    <PackageReference Include="Microsoft.Azure.EventHubs.Processor" Version="4.3.2" />
   </ItemGroup>
 
 </Project>
