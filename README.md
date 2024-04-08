@@ -1,4 +1,4 @@
-# Seq.Input.Azure.EventHub
+# Seq.Input.AzureEventHub
 
 A Seq custom input that pulls messages from Azure EventHub. Built by @Hinni, currently being
 experimentally updated to test with new dependencies and host versions.
