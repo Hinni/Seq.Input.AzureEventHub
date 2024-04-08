@@ -5,21 +5,23 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <Authors>Hinni Solutions and Contributors</Authors>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <Description>Ingest events into Seq directly from Azure Event Hub</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Copyright>Copyright © 2019 Hinni Solutions and Contributors</Copyright>
-    <RepositoryUrl>https://github.com/nblumhardt/seq-input-azure-eventhub</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Hinni/Seq.Input.AzureEventHub</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>seq-app Seq Input Azure Event Hub</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIconUrl>https://raw.githubusercontent.com/datalust/sqelf/master/asset/seq-input-gelf.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/nblumhardt/seq-input-azure-eventhub</PackageProjectUrl>
     <RootNamespace>Seq.Input.AzureEventHub</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE" Link="LICENSE" Pack="true" PackagePath="" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
     <None Include="./obj/publish/**/*" Exclude="./obj/publish/$(MSBuildProjectName).dll;./obj/publish/Seq.Apps.dll;./obj/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
   </ItemGroup>
 
