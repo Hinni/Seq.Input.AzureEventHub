@@ -29,10 +29,10 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release
     - name: Pack
-      run: dotnet pack -c Release --no-build
+      run: dotnet pack -c Release --no-build -o ./artifacts/
     - name: Upload nuget
       uses: actions/upload-artifact@v4
       with:
         name: pre-release-pipeline-test
-        path: ./bin/Release/*.nupkg
+        path: ./artifacts/Seq.Input.AzureEventHub*.nupkg
         retention-days: 1
