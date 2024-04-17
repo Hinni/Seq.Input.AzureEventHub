@@ -27,9 +27,9 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish /src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj -c Release -o ./obj/publish
+      run: dotnet publish ./src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj -c Release -o ./obj/publish
     - name: Pack
-      run: dotnet pack /src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj -c Release --no-build -o ./artifacts
+      run: dotnet pack ./src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj -c Release --no-build -o ./artifacts
     - name: Upload nuget
       uses: actions/upload-artifact@v4
       with:
