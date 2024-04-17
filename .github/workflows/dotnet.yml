@@ -29,7 +29,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     env:
-      CSPROJ_FOLDER: ./src/Seq.Input.AzureEventHub/
       CSPROJ_NAME: Seq.Input.AzureEventHub.csproj
     steps:
     - uses: actions/checkout@v4
@@ -39,13 +38,13 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore ${CSPROJ_NAME} --no-cache
-      working-directory: ${CSPROJ_FOLDER}
+      working-directory: ./src/Seq.Input.AzureEventHub
     - name: Publish
       run: dotnet publish ${CSPROJ_NAME} -c Release -o ./obj/publish --no-restore
-      working-directory: ${CSPROJ_FOLDER}
+      working-directory: ./src/Seq.Input.AzureEventHub
     - name: Pack
       run: dotnet pack ${CSPROJ_NAME} -c Release -o ../../artifacts --no-build --no-restore
-      working-directory: ${CSPROJ_FOLDER}
+      working-directory: ./src/Seq.Input.AzureEventHub
     - name: Upload nuget
       uses: actions/upload-artifact@v4
       with:
