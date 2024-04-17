@@ -1,62 +1,43 @@
-﻿using Microsoft.Azure.EventHubs;
+﻿using System;
+using Azure.Messaging.EventHubs.Producer;
+using Microsoft.Azure.EventHubs;
+using Seq.Input.Azure.EventHub.TestConsole;
 using Serilog;
+using Serilog.Debugging;
+using Serilog.Events;
 using Serilog.Formatting.Compact;
-using System;
 
-namespace Seq.Input.AzureEventHub.TestConsole
+// I want to see internal serilog errors, if Sinks don't work as expected
+SelfLog.Enable(Console.Error);
+
+// Load configuration from config
+var appSettings = new AppSettings();
+
+// Prepare Event Hub connection string and create Client instance
+var connectionStringBuilder = new EventHubsConnectionStringBuilder(appSettings.EventHubConnectionString)
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            // I want to see internal serilog errors, if Sinks don't work as expected
-            Serilog.Debugging.SelfLog.Enable(Console.Error);
+    EntityPath = appSettings.EventHubName
+};
 
-            // Load configuration from config
-            var appSettings = new AppSettings();
+await using var eventHubClient = new EventHubProducerClient(connectionStringBuilder.ToString());
 
-            // Prepare Event Hub connection string and create Client instance
-            var connectionStringBuilder = new EventHubsConnectionStringBuilder(appSettings.EventHubConnectionString)
-            {
-                EntityPath = appSettings.EventHubName
-            };
-            var eventHubClient = EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
+// Setup local logger with two sinks
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Is(LevelAlias.Minimum)
+    .WriteTo.Console() // Writes local log to console
+    .WriteTo.AzureEventHub(new CompactJsonFormatter(), eventHubClient) // Writes local log to event hub for demo entries
+    .CreateLogger();
 
-            // Setup local logger with two sinks
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.ColoredConsole() // Writes local log to console
-                .WriteTo.AzureEventHub(new CompactJsonFormatter(), eventHubClient) // Writes local log to event hub for demo entries
-                .MinimumLevel.Verbose()
-                .CreateLogger();
+Log.Information("Write some test data to event hub");
 
-            Log.Logger.Information("Write some test data to event hub");
+// Send test data with different levels
+Log.Verbose("Test Event");
+Log.Debug("Test Event");
+Log.Information("Test Event");
+Log.Warning("Test Event");
+Log.Error("Test Event");
+Log.Fatal("Test Event");
 
-            // Send test data with different levels
-            Log.Logger.Verbose("Test Event");
-            Log.Logger.Debug("Test Event");
-            Log.Logger.Information("Test Event");
-            Log.Logger.Warning("Test Event");
-            Log.Logger.Error("Test Event");
-            Log.Logger.Fatal("Test Event");
+Log.Information("Read this data");
 
-            Log.Logger.Information("Read this data");
-
-            // Setup listener (only if not running on Seq already)
-            var listener = new AzureEventHubListener(new SynchronizedInputWriter(Console.Out), Log.Logger,
-                appSettings.EventHubConnectionString,
-                appSettings.EventHubName,
-                appSettings.ConsumerGroupName,
-                appSettings.StorageConnectionString,
-                appSettings.StorageContainerName);
-
-            Log.Logger.Information("Press any key to shutting down");
-            Console.ReadLine();
-            Log.Logger.Warning("Please wait - shutting down...");
-
-            // Clean up
-            listener.Stop(); // This requires 60 seconds!
-            Log.CloseAndFlush();
-            eventHubClient.Close();
-        }
-    }
-}
+await Log.CloseAndFlushAsync();

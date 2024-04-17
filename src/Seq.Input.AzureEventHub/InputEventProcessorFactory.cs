@@ -1,23 +1,22 @@
-﻿using Microsoft.Azure.EventHubs.Processor;
+﻿using System;
+using Microsoft.Azure.EventHubs.Processor;
 using Serilog;
-using System;
 
-namespace Seq.Input.AzureEventHub
+namespace Seq.Input.AzureEventHub;
+
+sealed class InputEventProcessorFactory<T> : IEventProcessorFactory where T : class, IEventProcessor
 {
-    public class InputEventProcessorFactory<T> : IEventProcessorFactory where T : class, IEventProcessor
+    readonly SynchronizedInputWriter _synchronizedInputWriter;
+    readonly ILogger _logger;
+
+    public InputEventProcessorFactory(SynchronizedInputWriter synchronizedInputWriter, ILogger logger)
     {
-        private readonly SynchronizedInputWriter _synchronizedInputWriter;
-        private readonly ILogger _logger;
+        _synchronizedInputWriter = synchronizedInputWriter;
+        _logger = logger;
+    }
 
-        public InputEventProcessorFactory(SynchronizedInputWriter synchronizedInputWriter, ILogger logger)
-        {
-            _synchronizedInputWriter = synchronizedInputWriter;
-            _logger = logger;
-        }
-
-        public IEventProcessor CreateEventProcessor(PartitionContext context)
-        {
-            return Activator.CreateInstance(typeof(T), _synchronizedInputWriter, _logger) as T;
-        }
+    public IEventProcessor CreateEventProcessor(PartitionContext context)
+    {
+        return Activator.CreateInstance(typeof(T), _synchronizedInputWriter, _logger) as T;
     }
 }

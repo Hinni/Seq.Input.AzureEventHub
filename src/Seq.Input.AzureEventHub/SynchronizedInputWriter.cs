@@ -1,23 +1,22 @@
 ﻿using System.IO;
 
-namespace Seq.Input.AzureEventHub
+namespace Seq.Input.AzureEventHub;
+
+sealed class SynchronizedInputWriter
 {
-    public class SynchronizedInputWriter
+    readonly object _processLock = new();
+    readonly TextWriter _inputWriter;
+
+    public SynchronizedInputWriter(TextWriter textWriter)
     {
-        private readonly object _processLock = new object();
-        private readonly TextWriter _inputWriter;
+        _inputWriter = textWriter;
+    }
 
-        public SynchronizedInputWriter(TextWriter textWriter)
+    public void WriteLine(string value)
+    {
+        lock (_processLock)
         {
-            _inputWriter = textWriter;
-        }
-
-        public void WriteLine(string value)
-        {
-            lock (_processLock)
-            {
-                _inputWriter.WriteLine(value);
-            }
+            _inputWriter.WriteLine(value);
         }
     }
 }
