@@ -17,7 +17,7 @@ public sealed class AzureEventHubInput : SeqApp, IPublishJson
     AzureEventHubListener _azureEventHubListener;
 
     [SeqAppSetting(
-        DisplayName = "Event Hubs connection string",
+        DisplayName = "Event Hub connection string",
         IsOptional = false,
         InputType = SettingInputType.Password,
         HelpText = "Connection string for the Event Hub to receive from.")]

@@ -1,0 +1,54 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master", "features/*" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore --no-cache
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    env:
+      CSPROJ_NAME: Seq.Input.AzureEventHub.csproj
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore ${CSPROJ_NAME} --no-cache
+      working-directory: ./src/Seq.Input.AzureEventHub
+    - name: Publish
+      run: dotnet publish ${CSPROJ_NAME} -c Release -o ./obj/publish --no-restore
+      working-directory: ./src/Seq.Input.AzureEventHub
+    - name: Pack
+      run: dotnet pack ${CSPROJ_NAME} -c Release -o ../../artifacts --no-build --no-restore
+      working-directory: ./src/Seq.Input.AzureEventHub
+    - name: Upload nuget
+      uses: actions/upload-artifact@v4
+      with:
+        name: pre-release-pipeline-test
+        path: ./artifacts/*.nupkg
+        compression-level: 9
+        retention-days: 1
