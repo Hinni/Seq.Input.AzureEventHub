@@ -14,13 +14,14 @@
     <PackageTags>seq-app Seq Input Azure Event Hub</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIconUrl>https://raw.githubusercontent.com/datalust/sqelf/master/asset/seq-input-gelf.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/nblumhardt/seq-input-azure-eventhub</PackageProjectUrl>
+    <PackageIcon>seq-input-gelf.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/Hinni/Seq.Input.AzureEventHub</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
     <None Include="..\..\README.md" Pack="true" PackagePath="" />
+    <None Include="..\..\seq-input-gelf.png" Pack="true" PackagePath="" />
     <None Include="./obj/publish/**/*" Exclude="./obj/publish/$(MSBuildProjectName).dll;./obj/publish/Seq.Apps.dll;./obj/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
   </ItemGroup>
 
