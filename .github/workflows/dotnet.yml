@@ -10,10 +10,8 @@ on:
     branches: [ "master", "features/*" ]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -26,10 +24,23 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CSPROJ: ./src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore ${CSPROJ} --no-cache
     - name: Publish
-      run: dotnet publish ./src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj -c Release -o ./obj/publish
+      run: dotnet publish ${CSPROJ} -c Release -o ./obj/publish
     - name: Pack
-      run: dotnet pack ./src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj -c Release --no-build -o ./artifacts
+      run: dotnet pack ${CSPROJ} -c Release -o ./artifacts --no-build 
     - name: Upload nuget
       uses: actions/upload-artifact@v4
       with:
