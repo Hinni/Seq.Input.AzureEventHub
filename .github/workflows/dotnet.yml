@@ -27,12 +27,13 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish -c Release
+      run: dotnet publish /src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj -c Release -o ./obj/publish
     - name: Pack
-      run: dotnet pack -c Release --no-build -o ./artifacts/
+      run: dotnet pack /src/Seq.Input.AzureEventHub/Seq.Input.AzureEventHub.csproj -c Release --no-build -o ./artifacts
     - name: Upload nuget
       uses: actions/upload-artifact@v4
       with:
         name: pre-release-pipeline-test
-        path: ./artifacts/Seq.Input.AzureEventHub*.nupkg
+        path: ./artifacts/*.nupkg
+        compression-level: 9
         retention-days: 1
