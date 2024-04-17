@@ -39,7 +39,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ${CSPROJ} --no-cache
     - name: Build
-      run: dotnet build --no-restore -o ./obj/publish
+      run: dotnet build ${CSPROJ} --no-restore -o ./obj/publish
     - name: Publish
       run: dotnet publish ${CSPROJ} -c Release -o ./obj/publish --no-build --no-restore
     - name: Pack
